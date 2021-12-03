@@ -1,0 +1,2 @@
+rootProject.name = "Training on Apache POI"
+include ':app'
