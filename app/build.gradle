@@ -50,5 +50,8 @@ dependencies {
     implementation 'org.apache.poi:poi-ooxml:4.0.0'
 
     //for table view library
-    implementation 'com.evrencoskun.library:tableview:0.8.9.2'
+    implementation 'com.evrencoskun.library:tableview:0.8.9.4'
+    //for recycler view
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
 }

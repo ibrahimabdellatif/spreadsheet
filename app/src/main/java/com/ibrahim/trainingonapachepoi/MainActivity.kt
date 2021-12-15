@@ -6,24 +6,28 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.appcompat.app.AppCompatActivity
+import com.evrencoskun.tableview.TableView
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import java.io.File
 import java.io.FileInputStream
 
 
 class MainActivity : AppCompatActivity() {
+
     private lateinit var inputET: TextView
     private lateinit var saveFileBtn: Button
     private lateinit var showDataTV: TextView
+
+    private lateinit var tableView: TableView
 
     //private var filePath = File("${Environment.getExternalStorageDirectory()}/Demo.xlsx")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         inputET = findViewById(R.id.ed_file_name)
         saveFileBtn = findViewById(R.id.btn_safe_file)
         showDataTV = findViewById(R.id.tv_data)
-
 
         //to choose file form local storage and get file path
         val pick = registerForActivityResult(GetContent()) { result ->
@@ -31,7 +35,6 @@ class MainActivity : AppCompatActivity() {
             //val inputStream: InputStream? = contentResolver.openInputStream(result.lastPathSegment)
 
         }
-
 
         saveFileBtn.setOnClickListener {
             //to choose file form local storage
