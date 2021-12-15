@@ -10,4 +10,7 @@
     <color name="shadow_background_color">#000000</color>
     <color name="unselected_background_color">#6F4A47</color>
     <color name="selected_background_color">#3D4368</color>
+    <color name="table_view_default_text_color">#0a0a0a</color>
+    <color name="header_line_color">#0a0a0a</color>
+    <color name="cell_background_color">#ffffff</color>
 </resources>
