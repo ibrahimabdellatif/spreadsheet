@@ -3,50 +3,59 @@ package com.ibrahim.trainingonapachepoi
 import android.os.Bundle
 import android.os.Environment
 import android.widget.Button
-import android.widget.EditText
-import android.widget.Toast
+import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts.GetContent
 import androidx.appcompat.app.AppCompatActivity
 import org.apache.poi.hssf.usermodel.HSSFWorkbook
 import java.io.File
-import java.io.FileOutputStream
+import java.io.FileInputStream
 
-//this code make you to write in first cell in excel sheet and create it with static name
+
 class MainActivity : AppCompatActivity() {
-    private lateinit var inputET: EditText
+    private lateinit var inputET: TextView
     private lateinit var saveFileBtn: Button
-    private var filePath = File("${Environment.getExternalStorageDirectory()}/Demo.xlsx")
+    private lateinit var showDataTV: TextView
 
+    //private var filePath = File("${Environment.getExternalStorageDirectory()}/Demo.xlsx")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         inputET = findViewById(R.id.ed_file_name)
         saveFileBtn = findViewById(R.id.btn_safe_file)
+        showDataTV = findViewById(R.id.tv_data)
 
-        saveFileBtn.setOnClickListener {
-            saveButton()
-            Toast.makeText(this , filePath.toString() , Toast.LENGTH_LONG).show()
+
+        //to choose file form local storage and get file path
+        val pick = registerForActivityResult(GetContent()) { result ->
+            showDataTV.text = result.path
+            //val inputStream: InputStream? = contentResolver.openInputStream(result.lastPathSegment)
 
         }
+
+
+        saveFileBtn.setOnClickListener {
+            //to choose file form local storage
+            //pick.launch("*/*")
+
+            getDataFromSheet()
+        }
+
     }
 
+
     //this button to create an excel file
-    fun saveButton() {
-        val workbook = HSSFWorkbook()
-        val sheet = workbook.createSheet("My First Sheet")
+    private fun getDataFromSheet() {
+        //here we specify to downloads folder then i put the specific file with his name inside it
+        val folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        val myFile = File(folder, "Demo.xlsx")
+        val fileInputStream = FileInputStream(myFile)
 
-        val row = sheet.createRow(0)
-        val cell = row.createCell(0)
+//        val factory = WorkbookFactory.create(input)
+        val workbook = HSSFWorkbook(fileInputStream)
+        val xlws = workbook.getSheetAt(0)
+        val data = xlws.getRow(0).getCell(0)
+        inputET.text = data.toString()
 
-        cell.setCellValue(inputET.text.toString())
-
-        if (!filePath.exists()) filePath.createNewFile()
-
-        val fileOutputStream = FileOutputStream(filePath)
-
-        workbook.write(fileOutputStream)
-
-        fileOutputStream.flush()
-        fileOutputStream.close()
 
     }
 }
